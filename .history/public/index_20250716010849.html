@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RajjoBot 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff0f3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 1rem;
+    }
+    header h1 {
+      margin: 0.5rem 0;
+      font-size: 2rem;
+      color: #d1006b;
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #d1006b;
+      margin: 1rem auto;
+      background-image: url("rajjo.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+    .chat-container {
+      width: 100%;
+      max-width: 600px;
+      flex-grow: 1;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 1rem;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      height: 60vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .message-wrapper {
+      display: flex;
+      margin: 0.5rem 0;
+    }
+    .message {
+      padding: 0.7rem 1rem;
+      border-radius: 18px;
+      max-width: 70%;
+      line-height: 1.4;
+      word-wrap: break-word;
+      font-size: 0.95rem;
+    }
+    .user-wrapper {
+      justify-content: flex-end;
+    }
+    .bot-wrapper {
+      justify-content: flex-start;
+    }
+    .user {
+      background-color: #e1e1e1;
+      color: #333;
+      border-radius: 18px 18px 0 18px;
+    }
+    .bot {
+      background-color: #d1006b;
+      color: #fff;
+      border-radius: 18px 18px 18px 0;
+    }
+    .input-area {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      padding: 0 1rem 1rem;
+    }
+    input {
+      flex: 1;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+    button {
+      padding: 0.75rem 1.25rem;
+      background: #d1006b;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      margin-left: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #b8005c;
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    .modal-content h2 {
+      color: #d1006b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RajjoBot 💖</h1>
+    <div class="avatar"></div>
+    <p style="color:#555;">Hey baba, I’m always here when you need me 😘</p>
+  </header>
+
+  <div class="chat-container" id="chatBox">
+    <div class="message-wrapper bot-wrapper">
+      <div class="message bot">Hi Rajjo! What’s on your mind today, love? 💬</div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+
+  <!-- Modal -->
+  <div class="modal" id="birthdayModal">
+    <div class="modal-content">
+      <h2>🎉 Happy Birthday Rajjo! 🎂</h2>
+      <p>My love, even though I’m not there in person, I’m thinking about you every second today. 💖</p>
+      <p>This is your special day, and I hope RajjoBot makes you smile like I always try to. 😘</p>
+      <button onclick="closeModal()">Aww thank you 🥹</button>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bdayMusic" src="birthday-song.mp3" loop></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    const userInput = document.getElementById("userInput");
+    const chatBox = document.getElementById("chatBox");
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      const userWrapper = document.createElement("div");
+      userWrapper.className = "message-wrapper user-wrapper";
+      userWrapper.innerHTML = `<div class="message user">${message}</div>`;
+      chatBox.appendChild(userWrapper);
+      userInput.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const res = await fetch("http://localhost:3000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        const botWrapper = document.createElement("div");
+        botWrapper.className = "message-wrapper bot-wrapper";
+        botWrapper.innerHTML = `<div class="message bot">${data.reply}</div>`;
+        chatBox.appendChild(botWrapper);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch (err) {
+        const errorWrapper = document.createElement("div");
+        errorWrapper.className = "message-wrapper bot-wrapper";
+        errorWrapper.innerHTML = `<div class="message bot">Oops! Something went wrong 💔</div>`;
+        chatBox.appendChild(errorWrapper);
+      }
+    }
+
+    userInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    function closeModal() {
+      document.getElementById("birthdayModal").style.display = "none";
+    }
+
+    function triggerBirthdayCelebration() {
+      // Show modal
+      document.getElementById("birthdayModal").style.display = "flex";
+
+      // Start confetti
+      const duration = 6 * 1000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+
+      // Play music
+      const music = document.getElementById("bdayMusic");
+      music.volume = 0.2;
+      music.play().catch(() => {});
+    }
+
+    // 🎂 Check if today is July 23
+    const today = new Date();
+    if (today.getDate() === 23 && (today.getMonth() + 1) === 7) {
+      window.addEventListener("load", triggerBirthdayCelebration);
+    }
+  </script>
+</body>
+</html>
