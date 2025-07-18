@@ -428,19 +428,16 @@
     top: 8px;
     right: 12px;
   }
-}   
+}
+
+    
   </style>
 </head>
-<style>
-  .music-control {
-    display: none;
-  }
-</style>
 <body>
   <header>
     <h1>RajjoBot</h1>
     <div class="avatar"></div>
-    <p style="color:#555;">Hey Baba!!</p>
+    <p style="color:#555;">Hey baba!!</p>
   </header>
 
   <div class="music-control">
@@ -654,11 +651,6 @@ if (saved && saved.timestamp) {
       if (!localStorage.getItem("userName")) {
         localStorage.setItem("userName", "Rajjo");
       }    
-      // Show music buttons after 15 seconds
-setTimeout(() => {
-  document.querySelector(".music-control").style.display = "flex";
-}, 15000);
-
       const today = new Date();
       const isBirthday = today.getDate() === 23 && today.getMonth() + 1 === 7;
       //isBirthday
