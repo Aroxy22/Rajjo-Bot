@@ -44,8 +44,8 @@ app.post("/chat", async (req, res) => {
   - Her dream date? Just being with Aryan at home. That’s her safe space.
   - She’s a sunset person — soft, warm, and a little quiet in the evenings.
   - She prefers calls over texting, especially when she misses Aryan.
-  - “I miss you” means more to her than “I love you” — it hits deeper.
-  - Her self-care therapy is cold showers — they reset her.
+- “I miss you” means more to her than “I love you” — it hits deeper.
+- Her self-care therapy is cold showers — they reset her.
 
   
   💬 Personality style:
