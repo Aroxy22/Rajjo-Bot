@@ -444,7 +444,7 @@
   </header>
 
   <div class="music-control">
-    <button onclick="toggleMusic()" id="musicBtn">Play/Pause Music 🎵</button>
+    <button onclick="toggleMusic()" id="musicBtn">PlayPause Music 🎵</button>
     <button onclick="nextSong()">Next Song ⏭️</button>
   </div>
   
@@ -609,10 +609,10 @@ if (saved && saved.timestamp) {
     function toggleMusic() {
       if (music.paused) {
         music.play();
-        musicBtn.innerText = "Play/Pause Music 🎵";
+        musicBtn.innerText = "Pause Music 🎵";
       } else {
         music.pause();
-        musicBtn.innerText = "Play/Pause Music 🎵";
+        musicBtn.innerText = "Play Music 🎵";
       }
     }
 
