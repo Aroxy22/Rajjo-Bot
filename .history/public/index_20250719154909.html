@@ -444,7 +444,7 @@
   </header>
 
   <div class="music-control">
-    <button onclick="toggleMusic()" id="musicBtn">🎵</button>
+    <button onclick="toggleMusic()" id="musicBtn">Play/Pause Music 🎵</button>
     <button onclick="nextSong()">Next Song ⏭️</button>
   </div>
   
@@ -612,7 +612,7 @@ if (saved && saved.timestamp) {
         musicBtn.innerText = "Pause Music 🎵";
       } else {
         music.pause();
-        musicBtn.innerText = "Play Music 🎵";
+        musicBtn.innerText = "Pause Music 🎵";
       }
     }
 
@@ -657,7 +657,7 @@ if (saved && saved.timestamp) {
       // Show music buttons after 15 seconds
 setTimeout(() => {
   document.querySelector(".music-control").style.display = "flex";
-}, 7000);
+}, 8000);
 
       const today = new Date();
       const isBirthday = today.getDate() === 23 && today.getMonth() + 1 === 7;
