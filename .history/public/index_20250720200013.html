@@ -445,7 +445,7 @@
 
   <div class="music-control">
     <button onclick="toggleMusic()" id="musicBtn">🎵</button>
-    <button onclick="nextSong()">Next Song ⏭️</button>
+    <button onclick="ttSong()">Next Song ⏭️</button>
   </div>
   
 
@@ -490,7 +490,7 @@
       music.src = songs[currentSongIndex];
       music.volume = 0.3;
       music.play().catch(() => {});
-      musicBtn.innerText = "Play/Pause Music 🎵";
+      musicBtn.innerText = "Play Music 🎵";
     }
 
     function playRandomSong() {
